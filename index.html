@@ -187,13 +187,16 @@
 
   </div>
 
-<script>
-  let cases = JSON.parse(localStorage.getItem('cases')) || [];
-  let selectedCaseId = null;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  function saveCases() {
-    localStorage.setItem('cases', JSON.stringify(cases));
-  }
+<script>
+  const SUPABASE_URL = 'https://gzpejcraxocnbfnwxfzs.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6cGVqY3JheG9jbmJmbnd4ZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzE2NzMsImV4cCI6MjA4OTcwNzY3M30.fuVnujsaVWc1IbapfbAZe9gwggrfI3jBpJMnR1VX0GA';
+
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let cases = [];
+  let selectedCaseId = null;
 
   function showPage(pageId, button) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -212,7 +215,43 @@
       .replaceAll("'", '&#039;');
   }
 
-  function createCase() {
+  async function loadCases() {
+    const caseList = document.getElementById('caseList');
+    const caseViewer = document.getElementById('caseViewer');
+
+    caseList.innerHTML = 'Loading cases...';
+
+    const { data, error } = await supabaseClient
+      .from('cases')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error loading cases:', error);
+      caseList.innerHTML = 'Failed to load cases.';
+      caseViewer.innerHTML = 'Check your Supabase setup.';
+      return;
+    }
+
+    cases = data || [];
+    renderCases();
+
+    if (selectedCaseId) {
+      const existingCase = cases.find(c => c.id === selectedCaseId);
+      if (existingCase) {
+        openCase(selectedCaseId);
+        return;
+      }
+    }
+
+    if (cases.length > 0) {
+      openCase(cases[0].id);
+    } else {
+      caseViewer.innerHTML = 'Select a case to view details.';
+    }
+  }
+
+  async function createCase() {
     const date = document.getElementById('caseDate').value.trim();
     const title = document.getElementById('caseTitle').value.trim();
     const defendant = document.getElementById('caseDefendant').value.trim();
@@ -220,30 +259,41 @@
     const info = document.getElementById('caseInfo').value.trim();
 
     if (!date || !title || !defendant) {
-      alert("Date, Title, and Defendant required.");
+      alert('Date, Title, and Defendant required.');
       return;
     }
 
-    const newCase = {
-      id: Date.now(),
-      date,
-      title,
-      defendant,
-      charges,
-      status: 'Open',
-      info
-    };
+    const { data, error } = await supabaseClient
+      .from('cases')
+      .insert([
+        {
+          date,
+          title,
+          defendant,
+          charges,
+          info,
+          status: 'Open'
+        }
+      ])
+      .select();
 
-    cases.push(newCase);
-    saveCases();
-    renderCases();
-    openCase(newCase.id);
+    if (error) {
+      console.error('Error creating case:', error);
+      alert('Failed to create case.');
+      return;
+    }
 
     document.getElementById('caseDate').value = '';
     document.getElementById('caseTitle').value = '';
     document.getElementById('caseDefendant').value = '';
     document.getElementById('caseCharges').value = '';
     document.getElementById('caseInfo').value = '';
+
+    await loadCases();
+
+    if (data && data[0]) {
+      openCase(data[0].id);
+    }
   }
 
   function renderCases() {
@@ -261,7 +311,7 @@
         : '';
 
       caseList.innerHTML += `
-        <div class="case-item" onclick="openCase(${c.id})" style="cursor:pointer; ${activeStyle}">
+        <div class="case-item" onclick="openCase('${c.id}')" style="cursor:pointer; ${activeStyle}">
           <strong>${escapeHtml(c.title)}</strong><br>
           <span style="color:#a1a1aa; font-size:12px;">${escapeHtml(c.defendant)}</span><br>
           <span style="color:#71717a; font-size:11px;">${escapeHtml(c.status || 'Open')}</span>
@@ -292,7 +342,7 @@
           <input
             class="case-input"
             value="${escapeHtml(c.date)}"
-            oninput="updateCaseField(${c.id}, 'date', this.value)"
+            oninput="updateCaseField('${c.id}', 'date', this.value)"
           >
         </div>
 
@@ -301,7 +351,7 @@
           <input
             class="case-input"
             value="${escapeHtml(c.title)}"
-            oninput="updateCaseField(${c.id}, 'title', this.value)"
+            oninput="updateCaseField('${c.id}', 'title', this.value)"
           >
         </div>
 
@@ -310,7 +360,7 @@
           <input
             class="case-input"
             value="${escapeHtml(c.defendant)}"
-            oninput="updateCaseField(${c.id}, 'defendant', this.value)"
+            oninput="updateCaseField('${c.id}', 'defendant', this.value)"
           >
         </div>
 
@@ -319,7 +369,7 @@
           <input
             class="case-input"
             value="${escapeHtml(c.charges || '')}"
-            oninput="updateCaseField(${c.id}, 'charges', this.value)"
+            oninput="updateCaseField('${c.id}', 'charges', this.value)"
           >
         </div>
 
@@ -327,7 +377,7 @@
           <label style="display:block; margin-bottom:6px; color:#a1a1aa;">Status</label>
           <select
             class="case-input"
-            onchange="updateCaseField(${c.id}, 'status', this.value)"
+            onchange="updateCaseField('${c.id}', 'status', this.value)"
           >
             <option value="Open" ${c.status === 'Open' ? 'selected' : ''}>Open</option>
             <option value="Pending" ${c.status === 'Pending' ? 'selected' : ''}>Pending</option>
@@ -340,23 +390,55 @@
         <strong style="display:block; margin-bottom:10px;">Additional Info / Notes</strong>
         <textarea
           class="case-input case-textarea"
-          style="min-height:160px; margin-bottom:0;"
-          oninput="updateCaseField(${c.id}, 'info', this.value)"
+          style="min-height:160px; margin-bottom:12px;"
+          oninput="updateCaseField('${c.id}', 'info', this.value)"
         >${escapeHtml(c.info || '')}</textarea>
+
+        <button class="create-btn" onclick="deleteCase('${c.id}')">Delete Case</button>
       </div>
     `;
   }
 
-  function updateCaseField(id, field, value) {
-    const c = cases.find(x => x.id === id);
-    if (!c) return;
+  async function updateCaseField(id, field, value) {
+    const localCase = cases.find(x => x.id === id);
+    if (!localCase) return;
 
-    c[field] = value;
-    saveCases();
+    localCase[field] = value;
     renderCases();
+
+    const updates = {};
+    updates[field] = value;
+
+    const { error } = await supabaseClient
+      .from('cases')
+      .update(updates)
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating case:', error);
+    }
   }
 
-  renderCases();
+  async function deleteCase(id) {
+    const confirmed = confirm('Delete this case?');
+    if (!confirmed) return;
+
+    const { error } = await supabaseClient
+      .from('cases')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting case:', error);
+      alert('Failed to delete case.');
+      return;
+    }
+
+    selectedCaseId = null;
+    await loadCases();
+  }
+
+  loadCases();
 </script>
 
 </body>
