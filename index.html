@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sleek DOJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0f0f14;
+      color: white;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: #18181f;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .nav button {
+      background: none;
+      border: none;
+      color: #a1a1aa;
+      padding: 10px;
+      text-align: left;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: #23232b;
+      color: white;
+    }
+
+    .main {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .header {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: #18181f;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .create-btn {
+  background: #23232b;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+.create-btn:hover {
+  background: #2b2b35;
+}
+.case-item {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">Sleek's DOJ Database</div>
+
+    <div class="nav">
+      <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
+      <button onclick="showPage('cases', this)">Cases</button>
+      <button onclick="showPage('mycases', this)">My Cases</button>
+      <button onclick="showPage('search', this)">Search</button>
+      <button onclick="showPage('admin', this)">Admin</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <div id="dashboard" class="page active">
+      <div class="header">Dashboard</div>
+      <div class="card">Welcome to your DOJ system.</div>
+    </div>
+
+    <div id="cases" class="page">
+  <div class="header">Cases</div>
+  <button class="create-btn" onclick="createCase()">+ Create Case</button>
+  <div class="card" id="caseList">No cases yet.</div>
+</div>
+
+    <div id="mycases" class="page">
+      <div class="header">My Cases</div>
+      <div class="card">Your assigned cases will appear here.</div>
+    </div>
+
+    <div id="search" class="page">
+      <div class="header">Search</div>
+      <div class="card">Search system coming next.</div>
+    </div>
+
+    <div id="admin" class="page">
+      <div class="header">Admin Panel</div>
+      <div class="card">Admin tools coming next.</div>
+    </div>
+
+  </div>
+
+  <script>
+  function showPage(pageId, button) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+
+    document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+  }
+
+  let caseCount = 0;
+
+  function createCase() {
+  const date = prompt("Enter Date:");
+  const title = prompt("Enter Case Title:");
+  const defendant = prompt("Enter Defendant Name:");
+  const charges = prompt("Enter Charges:");
+  const info = prompt("Enter Additional Information:");
+
+  if (!date || !title || !defendant) {
+    alert("Date, Title, and Defendant are required.");
+    return;
+  }
+
+  caseCount++;
+  const caseList = document.getElementById('caseList');
+
+  if (caseCount === 1) {
+    caseList.innerHTML = '';
+  }
+
+  caseList.innerHTML += `
+    <div class="case-item">
+      <strong>Case #${caseCount}</strong><br>
+      <strong>Date:</strong> ${date}<br>
+      <strong>Title:</strong> ${title}<br>
+      <strong>Defendant:</strong> ${defendant}<br>
+      <strong>Charges:</strong> ${charges}<br>
+      <strong>Info:</strong> ${info}
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
