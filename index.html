@@ -399,7 +399,33 @@
     `;
   }
 
-  async function updateCaseField(id, field, value) {
+  let typingTimeout;
+
+async function updateCaseField(id, field, value) {
+  const localCase = cases.find(x => x.id === id);
+  if (!localCase) return;
+
+  // update instantly locally
+  localCase[field] = value;
+  renderCases();
+
+  // debounce so we don’t spam database
+  clearTimeout(typingTimeout);
+
+  typingTimeout = setTimeout(async () => {
+    const updates = {};
+    updates[field] = value;
+
+    const { error } = await supabaseClient
+      .from('cases')
+      .update(updates)
+      .eq('id', id);
+
+    if (error) {
+      console.error('Update error:', error);
+    }
+  }, 200); // sends update after user pauses typing
+} {
     const localCase = cases.find(x => x.id === id);
     if (!localCase) return;
 
@@ -440,7 +466,7 @@
 
   loadCases();
 
-// REAL-TIME SYNC
+// REALTIME LISTENER (ADD THIS)
 supabaseClient
   .channel('cases-realtime')
   .on(
