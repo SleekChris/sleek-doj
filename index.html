@@ -439,6 +439,22 @@
   }
 
   loadCases();
+
+// REAL-TIME SYNC
+supabaseClient
+  .channel('cases-realtime')
+  .on(
+    'postgres_changes',
+    {
+      event: '*',
+      schema: 'public',
+      table: 'cases'
+    },
+    () => {
+      loadCases();
+    }
+  )
+  .subscribe();
 </script>
 
 </body>
