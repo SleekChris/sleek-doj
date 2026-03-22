@@ -265,6 +265,30 @@
         grid-column: auto;
       }
     }
+    .dashboard-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.doj-logo {
+  height: 70px;
+  width: auto;
+
+  margin-bottom: 10px;
+
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.7));
+}
+
+.dashboard-title {
+  font-size: 26px;
+  font-weight: 700; /* bold */
+  letter-spacing: 0.5px;
+}
   </style>
 </head>
 
@@ -283,7 +307,10 @@
 
   <div class="main">
     <div id="dashboard" class="page active">
-      <div class="header">Dashboard</div>
+  <div class="dashboard-header">
+    <img src="logo.png" class="doj-logo">
+    <div class="dashboard-title">Dashboard</div>
+  </div>
       <div class="card">Welcome to your DOJ system.</div>
     </div>
 
