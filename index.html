@@ -58,25 +58,15 @@
     }
 
     .main {
-  flex: 1;
-  padding: 40px;
-  box-sizing: border-box;
-  overflow-y: auto;
-
-  background: radial-gradient(
-    circle at top left,
-    rgba(255,255,255,0.02),
-    transparent 40%
-  );
-}
-
-    .page {
-      display: none;
+      flex: 1;
+      padding: 40px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.02), transparent 40%);
     }
 
-    .page.active {
-      display: block;
-    }
+    .page { display: none; }
+    .page.active { display: block; }
 
     .header {
       font-size: 24px;
@@ -85,140 +75,118 @@
     }
 
     .card {
-  background: linear-gradient(145deg, #18181f, #14141b);
-  padding: 25px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(145deg, #18181f, #14141b);
+      padding: 25px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow:
+        0 8px 25px rgba(0,0,0,0.45),
+        0 2px 6px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.03);
+      transition: all 0.2s ease;
+    }
 
-  /* NEW DEPTH */
-  box-shadow:
-    0 8px 25px rgba(0,0,0,0.45),
-    0 2px 6px rgba(0,0,0,0.3),
-    inset 0 1px 0 rgba(255,255,255,0.03);
+    .create-btn,
+    .music-btn {
+      background: linear-gradient(145deg, #2a2a34, #202028);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s ease;
+      box-shadow:
+        0 6px 14px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
 
-  transition: all 0.2s ease;
-}
-
-   .create-btn {
-  background: linear-gradient(145deg, #2a2a34, #202028);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-
-  transition: all 0.2s ease;
-
-  /* NEW */
-  box-shadow:
-    0 6px 14px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.04);
-}
-
-.create-btn:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(145deg, #2f2f3a, #24242e);
-}
-
-    .create-btn:hover {
-      background: #2b2b35;
+    .create-btn:hover,
+    .music-btn:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(145deg, #2f2f3a, #24242e);
     }
 
     .delete-btn {
-  background: linear-gradient(145deg, #3a1f24, #2a151a);
-  color: #ffb4c0;
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-
-  transition: all 0.2s ease;
-
-  box-shadow:
-    0 6px 14px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.04);
-}
-
-.delete-btn:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(145deg, #4a252c, #33191f);
-}
+      background: linear-gradient(145deg, #3a1f24, #2a151a);
+      color: #ffb4c0;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow:
+        0 6px 14px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
 
     .delete-btn:hover {
-      background: #4a252c;
+      transform: translateY(-1px);
+      background: linear-gradient(145deg, #4a252c, #33191f);
     }
 
     .case-item {
-  padding: 12px;
-  border-radius: 10px;
-  background: linear-gradient(145deg, #14141b, #101016);
-  margin-bottom: 10px;
-  cursor: pointer;
+      padding: 12px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #14141b, #101016);
+      margin-bottom: 10px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow:
+        0 4px 12px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.02);
+      transition: all 0.2s ease;
+    }
 
-  border: 1px solid rgba(255,255,255,0.05);
-
-  /* NEW */
-  box-shadow:
-    0 4px 12px rgba(0,0,0,0.4),
-    inset 0 1px 0 rgba(255,255,255,0.02);
-
-  transition: all 0.2s ease;
-}
-
-.case-item:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 8px 20px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.08);
-}
-
-.case-item.active {
-  background: #23232b;
-  border-color: rgba(255,255,255,0.12);
-  box-shadow:
-    0 10px 25px rgba(0,0,0,0.7),
-    0 0 0 1px rgba(255,255,255,0.04) inset;
-}
-
-    .case-item:hover,
-    .case-item.active {
+    .case-item:hover {
+      transform: translateY(-1px);
       background: #23232b;
       border-color: rgba(255,255,255,0.08);
+      box-shadow:
+        0 8px 20px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .case-item.active {
+      background: #23232b;
+      border-color: rgba(255,255,255,0.12);
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(255,255,255,0.04) inset;
     }
 
     .case-input {
-  width: 100%;
-  box-sizing: border-box;
-  background: #111118;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 12px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  outline: none;
-
-  /* NEW */
-  transition: all 0.2s ease;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
-}
-
-.case-input:focus {
-  border-color: rgba(255,255,255,0.15);
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.05),
-    inset 0 1px 2px rgba(0,0,0,0.4);
-}
+      width: 100%;
+      box-sizing: border-box;
+      background: #111118;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+    }
 
     .case-input:focus {
-      border-color: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,0.05),
+        inset 0 1px 2px rgba(0,0,0,0.4);
     }
 
     .case-textarea {
       min-height: 120px;
       resize: vertical;
+    }
+
+    select.case-input {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
 
     .muted {
@@ -233,9 +201,7 @@
       margin-bottom: 8px;
     }
 
-    .viewer-full {
-      grid-column: 1 / -1;
-    }
+    .viewer-full { grid-column: 1 / -1; }
 
     .section-label {
       font-size: 13px;
@@ -252,6 +218,152 @@
       margin-bottom: 16px;
     }
 
+    .dashboard-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .doj-logo {
+      height: 70px;
+      width: auto;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.7));
+    }
+
+    .dashboard-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .music-player {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #18181f, #14141b);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .volume-slider {
+      width: 140px;
+      cursor: pointer;
+    }
+
+    .volume-label {
+      min-width: 28px;
+      color: #cfcfd6;
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .status-dot.green {
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(34,197,94,0.7);
+    }
+
+    .status-dot.yellow {
+      background: #eab308;
+      box-shadow: 0 0 6px rgba(234,179,8,0.7);
+    }
+
+    .status-dot.red {
+      background: #ef4444;
+      box-shadow: 0 0 6px rgba(239,68,68,0.7);
+    }
+
+    .case-topbar {
+      margin-bottom: 20px;
+    }
+
+    .case-meta-line {
+      display: flex;
+      align-items: end;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .case-meta-line input {
+      margin-bottom: 0;
+    }
+
+    .case-divider {
+      color: rgba(255,255,255,0.25);
+      font-size: 20px;
+    }
+
+    .case-defendant-header {
+      font-size: 18px;
+      font-weight: 600;
+      color: #d4d4dc;
+      margin-left: 12px;
+      white-space: nowrap;
+    }
+
+    .case-sub-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .case-assigned-header {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .status-badge.open {
+      background: rgba(34, 197, 94, 0.12);
+      color: #86efac;
+    }
+
+    .status-badge.pending {
+      background: rgba(234, 179, 8, 0.12);
+      color: #fde047;
+    }
+
+    .status-badge.closed {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5;
+    }
+
+    .case-id-input {
+      max-width: 220px;
+      font-weight: 600;
+    }
+
     @media (max-width: 1100px) {
       .cases-layout {
         flex-direction: column;
@@ -265,106 +377,6 @@
         grid-column: auto;
       }
     }
-    .dashboard-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.doj-logo {
-  height: 70px;
-  width: auto;
-
-  margin-bottom: 10px;
-
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.7));
-}
-
-.dashboard-title {
-  font-size: 26px;
-  font-weight: 700; /* bold */
-  letter-spacing: 0.5px;
-}
-
-.music-player {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 999;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 12px 16px;
-  border-radius: 14px;
-
-  background: linear-gradient(145deg, #18181f, #14141b);
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.03);
-}
-
-select.case-input {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-.music-btn {
-  background: #23232b;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: 0.2s ease;
-}
-
-.music-btn:hover {
-  background: #2b2b35;
-}
-
-.volume-slider {
-  width: 140px;
-  cursor: pointer;
-}
-
-.volume-label {
-  min-width: 28px;
-  color: #cfcfd6;
-  font-size: 14px;
-  text-align: right;
-}
-
-.status-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-right: 6px;
-}
-
-.status-dot.green {
-  background: #22c55e;
-  box-shadow: 0 0 6px rgba(34,197,94,0.7);
-}
-
-.status-dot.yellow {
-  background: #eab308;
-  box-shadow: 0 0 6px rgba(234,179,8,0.7);
-}
-
-.status-dot.red {
-  background: #ef4444;
-  box-shadow: 0 0 6px rgba(239,68,68,0.7);
-}
   </style>
 </head>
 
@@ -383,10 +395,10 @@ select.case-input {
 
   <div class="main">
     <div id="dashboard" class="page active">
-  <div class="dashboard-header">
-    <img src="logo.png" class="doj-logo">
-    <div class="dashboard-title">Dashboard</div>
-  </div>
+      <div class="dashboard-header">
+        <img src="logo.png" class="doj-logo">
+        <div class="dashboard-title">Dashboard</div>
+      </div>
       <div class="card">Welcome to your DOJ system.</div>
     </div>
 
@@ -411,9 +423,7 @@ select.case-input {
         </div>
 
         <div style="flex:1;">
-          <div class="card" id="caseViewer">
-            Select a case to view details.
-          </div>
+          <div class="card" id="caseViewer">Select a case to view details.</div>
         </div>
       </div>
     </div>
@@ -433,39 +443,38 @@ select.case-input {
       <div class="card">Admin tools coming next.</div>
     </div>
   </div>
-<div class="music-player">
-  <button id="musicToggle" class="music-btn" onclick="toggleMusic()">Play</button>
 
-  <input
-    id="volumeSlider"
-    class="volume-slider"
-    type="range"
-    min="0"
-    max="100"
-    value="0"
-    oninput="setVolume(this.value)"
-  >
+  <div class="music-player">
+    <button id="musicToggle" class="music-btn" onclick="toggleMusic()">Play</button>
+    <input id="volumeSlider" class="volume-slider" type="range" min="0" max="100" value="0" oninput="setVolume(this.value)">
+    <span id="volumeLabel" class="volume-label">0</span>
+    <audio id="bgMusic" loop muted>
+      <source src="music.mp3" type="audio/mpeg">
+    </audio>
+  </div>
 
-  <span id="volumeLabel" class="volume-label">0</span>
-
-  <audio id="bgMusic" loop muted>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
-</div>
   <script>
     const SUPABASE_URL = 'https://gzpejcraxocnbfnwxfzs.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6cGVqY3JheG9jbmJmbnd4ZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzE2NzMsImV4cCI6MjA4OTcwNzY3M30.fuVnujsaVWc1IbapfbAZe9gwggrfI3jBpJMnR1VX0GA';
-
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeLabel = document.getElementById('volumeLabel');
 
     let cases = [];
     let selectedCaseId = null;
     let typingTimeout = null;
 
+    bgMusic.volume = 0;
+    bgMusic.muted = true;
+    volumeSlider.value = 0;
+    volumeLabel.textContent = '0';
+
     function showPage(pageId, button) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
-
       document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
     }
@@ -477,6 +486,27 @@ select.case-input {
         .replaceAll('>', '&gt;')
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
+    }
+
+    function getStatusDot(status) {
+      if (status === 'Pending') return '<span class="status-dot yellow"></span>';
+      if (status === 'Closed') return '<span class="status-dot red"></span>';
+      return '<span class="status-dot green"></span>';
+    }
+
+    function getStatusBadge(status) {
+      const safeStatus = escapeHtml(status || 'Open');
+      if (status === 'Pending') {
+        return `<span class="status-badge pending"><span class="status-dot yellow"></span>${safeStatus}</span>`;
+      }
+      if (status === 'Closed') {
+        return `<span class="status-badge closed"><span class="status-dot red"></span>${safeStatus}</span>`;
+      }
+      return `<span class="status-badge open"><span class="status-dot green"></span>${safeStatus}</span>`;
+    }
+
+    function renderEmptyViewer() {
+      document.getElementById('caseViewer').innerHTML = 'Select a case to view details.';
     }
 
     async function loadCases(preserveSelection = true) {
@@ -493,20 +523,15 @@ select.case-input {
       cases = data || [];
       renderCases();
 
-      if (cases.length === 0) {
+      if (!cases.length) {
         selectedCaseId = null;
-        document.getElementById('caseViewer').innerHTML = 'Select a case to view details.';
+        renderEmptyViewer();
         return;
       }
 
       const selectedStillExists = preserveSelection && selectedCaseId && cases.find(c => c.id === selectedCaseId);
-
-      if (selectedStillExists) {
-        openCase(selectedCaseId, false);
-      } else {
-        selectedCaseId = cases[0].id;
-        openCase(selectedCaseId, false);
-      }
+      selectedCaseId = selectedStillExists ? selectedCaseId : cases[0].id;
+      openCase(selectedCaseId, false);
     }
 
     async function createCase() {
@@ -523,17 +548,16 @@ select.case-input {
 
       const { data, error } = await supabaseClient
         .from('cases')
-        .insert([
-        {
-  date,
-  title,
-  defendant,
-  charges,
-  info,
-  status: 'Open',
-  assigned_prosecutor: ''
-}
-        ])
+        .insert([{
+          date,
+          title,
+          defendant,
+          charges,
+          info,
+          status: 'Open',
+          assigned_prosecutor: '',
+          case_number: `CASE-${Date.now()}`
+        }])
         .select();
 
       if (error) {
@@ -542,13 +566,10 @@ select.case-input {
         return;
       }
 
-      document.getElementById('caseDate').value = '';
-      document.getElementById('caseTitle').value = '';
-      document.getElementById('caseDefendant').value = '';
-      document.getElementById('caseCharges').value = '';
-      document.getElementById('caseInfo').value = '';
+      ['caseDate', 'caseTitle', 'caseDefendant', 'caseCharges', 'caseInfo']
+        .forEach(id => document.getElementById(id).value = '');
 
-      if (data && data[0]) {
+      if (data?.[0]) {
         selectedCaseId = data[0].id;
       }
 
@@ -557,93 +578,94 @@ select.case-input {
 
     function renderCases() {
       const list = document.getElementById('caseList');
-      list.innerHTML = '';
 
-      if (cases.length === 0) {
+      if (!cases.length) {
         list.innerHTML = 'No cases yet.';
         return;
       }
 
-      cases.forEach(c => {
-        const activeClass = c.id === selectedCaseId ? ' active' : '';
-
-        list.innerHTML += `
-          <div class="case-item${activeClass}" onclick="openCase('${c.id}')">
-            <strong>${escapeHtml(c.title)}</strong><br>
-           <small class="muted">${escapeHtml(c.defendant)}</small><br>
-<small class="muted">
-  ${getStatusDot(c.status)} ${escapeHtml(c.status || 'Open')}
-</small>
-<small class="muted">${escapeHtml(c.assigned_prosecutor || 'Unassigned')}</small>
-          </div>
-        `;
-      });
+      list.innerHTML = cases.map(c => `
+        <div class="case-item${c.id === selectedCaseId ? ' active' : ''}" onclick="openCase('${c.id}')">
+          <strong>${escapeHtml(c.title)}</strong><br>
+          <small class="muted">${escapeHtml(c.defendant)}</small><br>
+          <small class="muted">${getStatusDot(c.status)} ${escapeHtml(c.status || 'Open')}</small><br>
+          <small class="muted">${escapeHtml(c.assigned_prosecutor || 'Unassigned')}</small>
+        </div>
+      `).join('');
     }
 
     function openCase(id, rerenderList = true) {
-  selectedCaseId = id;
-  const c = cases.find(x => x.id === id);
+      selectedCaseId = id;
+      const c = cases.find(x => x.id === id);
 
-  if (!c) {
-    document.getElementById('caseViewer').innerHTML = 'Case not found.';
-    return;
-  }
+      if (!c) {
+        document.getElementById('caseViewer').innerHTML = 'Case not found.';
+        return;
+      }
 
-  if (rerenderList) {
-    renderCases();
-  }
+      if (rerenderList) renderCases();
 
-  document.getElementById('caseViewer').innerHTML = `
-    <div class="top-row">
-      <div>
-        <h2 style="margin:0 0 6px 0;">Edit Case</h2>
-        <div class="muted">Live-synced with Supabase</div>
-      </div>
-      <button class="delete-btn" onclick="deleteCase('${c.id}')">Delete Case</button>
-    </div>
+      document.getElementById('caseViewer').innerHTML = `
+        <div class="top-row case-topbar">
+          <div>
+            <div class="case-meta-line">
+              <div>
+                <span class="section-label">Case ID</span>
+                <input class="case-input case-id-input" value="${escapeHtml(c.case_number || '')}" oninput="updateCaseField('${c.id}','case_number',this.value)">
+              </div>
+              <span class="case-divider">|</span>
+              <span class="case-defendant-header" id="headerDefendant">Defendant: ${escapeHtml(c.defendant || 'Unknown')}</span>
+            </div>
+            <div class="case-sub-line">
+              ${getStatusBadge(c.status)}
+              <span class="case-assigned-header">Assigned: ${escapeHtml(c.assigned_prosecutor || 'Unassigned')}</span>
+            </div>
+          </div>
+          <button class="delete-btn" onclick="deleteCase('${c.id}')">Delete Case</button>
+        </div>
 
-    <div class="viewer-grid">
-      <div>
-        <label class="section-label">Date</label>
-        <input class="case-input" value="${escapeHtml(c.date || '')}" oninput="updateCaseField('${c.id}','date',this.value)">
-      </div>
+        <div class="viewer-grid">
+          <div>
+            <label class="section-label">Date</label>
+            <input class="case-input" value="${escapeHtml(c.date || '')}" oninput="updateCaseField('${c.id}','date',this.value)">
+          </div>
 
-      <div>
-        <label class="section-label">Title</label>
-        <input class="case-input" value="${escapeHtml(c.title || '')}" oninput="updateCaseField('${c.id}','title',this.value)">
-      </div>
+          <div>
+            <label class="section-label">Title</label>
+            <input class="case-input" value="${escapeHtml(c.title || '')}" oninput="updateCaseField('${c.id}','title',this.value)">
+          </div>
 
-      <div>
-        <label class="section-label">Defendant</label>
-        <input class="case-input" value="${escapeHtml(c.defendant || '')}" oninput="updateCaseField('${c.id}','defendant',this.value)">
-      </div>
+          <div>
+            <label class="section-label">Defendant</label>
+            <input class="case-input" value="${escapeHtml(c.defendant || '')}" oninput="updateCaseField('${c.id}','defendant',this.value); const el = document.getElementById('headerDefendant'); if (el) el.textContent = 'Defendant: ' + (this.value || 'Unknown');">
+          </div>
 
-      <div>
-        <label class="section-label">Charges</label>
-        <input class="case-input" value="${escapeHtml(c.charges || '')}" oninput="updateCaseField('${c.id}','charges',this.value)">
-      </div>
+          <div>
+            <label class="section-label">Charges</label>
+            <input class="case-input" value="${escapeHtml(c.charges || '')}" oninput="updateCaseField('${c.id}','charges',this.value)">
+          </div>
 
-      <div>
-        <label class="section-label">Status</label>
-        <select class="case-input" onchange="updateCaseField('${c.id}','status',this.value)">
-  <option value="Open" ${c.status === 'Open' ? 'selected' : ''}>🟢 Open</option>
-  <option value="Pending" ${c.status === 'Pending' ? 'selected' : ''}>🟡 Pending</option>
-  <option value="Closed" ${c.status === 'Closed' ? 'selected' : ''}>🔴 Closed</option>
-</select>
-      </div>
+          <div>
+            <label class="section-label">Status</label>
+            <select class="case-input" onchange="updateCaseField('${c.id}','status',this.value)">
+              <option value="Open" ${c.status === 'Open' ? 'selected' : ''}>Open</option>
+              <option value="Pending" ${c.status === 'Pending' ? 'selected' : ''}>Pending</option>
+              <option value="Closed" ${c.status === 'Closed' ? 'selected' : ''}>Closed</option>
+            </select>
+          </div>
 
-      <div>
-        <label class="section-label">Assigned Prosecutor</label>
-        <input class="case-input" value="${escapeHtml(c.assigned_prosecutor || '')}" oninput="updateCaseField('${c.id}','assigned_prosecutor',this.value)">
-      </div>
+          <div>
+            <label class="section-label">Assigned Prosecutor</label>
+            <input class="case-input" value="${escapeHtml(c.assigned_prosecutor || '')}" oninput="updateCaseField('${c.id}','assigned_prosecutor',this.value)">
+          </div>
 
-      <div class="viewer-full">
-        <label class="section-label">Additional Info / Notes</label>
-        <textarea class="case-input case-textarea" oninput="updateCaseField('${c.id}','info',this.value)">${escapeHtml(c.info || '')}</textarea>
-      </div>
-    </div>
-  `;
-}
+          <div class="viewer-full">
+            <label class="section-label">Additional Info / Notes</label>
+            <textarea class="case-input case-textarea" oninput="updateCaseField('${c.id}','info',this.value)">${escapeHtml(c.info || '')}</textarea>
+          </div>
+        </div>
+      `;
+    }
 
     function updateCaseField(id, field, value) {
       const c = cases.find(x => x.id === id);
@@ -665,8 +687,7 @@ select.case-input {
     }
 
     async function deleteCase(id) {
-      const confirmed = confirm('Delete this case?');
-      if (!confirmed) return;
+      if (!confirm('Delete this case?')) return;
 
       const { error } = await supabaseClient
         .from('cases')
@@ -686,105 +707,63 @@ select.case-input {
       await loadCases(true);
     }
 
-    loadCases();
+    function toggleMusic() {
+      if (bgMusic.paused) {
+        bgMusic.play()
+          .then(() => musicToggle.textContent = 'Pause')
+          .catch(err => console.error('Music play error:', err));
+      } else {
+        bgMusic.pause();
+        musicToggle.textContent = 'Play';
+      }
+    }
+
+    function setVolume(value) {
+      const volume = Number(value) / 100;
+      bgMusic.volume = volume;
+      bgMusic.muted = volume === 0;
+      volumeLabel.textContent = value;
+    }
 
     supabaseClient
-  .channel('cases-realtime')
-  .on(
-    'postgres_changes',
-    {
-      event: '*',
-      schema: 'public',
-      table: 'cases'
-    },
-    (payload) => {
-      const eventType = payload.eventType;
-      const newRow = payload.new;
-      const oldRow = payload.old;
+      .channel('cases-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'cases' }, payload => {
+        const { eventType, new: newRow, old: oldRow } = payload;
 
-      if (eventType === 'INSERT' && newRow) {
-        const exists = cases.find(c => c.id === newRow.id);
-        if (!exists) {
+        if (eventType === 'INSERT' && newRow && !cases.find(c => c.id === newRow.id)) {
           cases.unshift(newRow);
           renderCases();
         }
-      }
 
-      if (eventType === 'UPDATE' && newRow) {
-        const index = cases.findIndex(c => c.id === newRow.id);
+        if (eventType === 'UPDATE' && newRow) {
+          const index = cases.findIndex(c => c.id === newRow.id);
+          if (index !== -1) cases[index] = newRow;
+          else cases.unshift(newRow);
 
-        if (index !== -1) {
-          cases[index] = newRow;
-        } else {
-          cases.unshift(newRow);
+          renderCases();
+
+          const active = document.activeElement;
+          const isTyping = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+
+          if (selectedCaseId === newRow.id && !isTyping) {
+            openCase(newRow.id, false);
+          }
         }
 
-        renderCases();
+        if (eventType === 'DELETE' && oldRow) {
+          cases = cases.filter(c => c.id !== oldRow.id);
 
-        const active = document.activeElement;
-        const isTyping =
-          active &&
-          (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+          if (selectedCaseId === oldRow.id) {
+            selectedCaseId = null;
+            renderEmptyViewer();
+          }
 
-        if (selectedCaseId === newRow.id && !isTyping) {
-          openCase(newRow.id, false);
+          renderCases();
         }
-      }
-
-      if (eventType === 'DELETE' && oldRow) {
-        cases = cases.filter(c => c.id !== oldRow.id);
-
-        if (selectedCaseId === oldRow.id) {
-          selectedCaseId = null;
-          document.getElementById('caseViewer').innerHTML = 'Select a case to view details.';
-        }
-
-        renderCases();
-      }
-    }
-  )
-  .subscribe();
-
-  const bgMusic = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
-const volumeSlider = document.getElementById('volumeSlider');
-const volumeLabel = document.getElementById('volumeLabel');
-
-// always start muted / volume 0
-bgMusic.volume = 0;
-bgMusic.muted = true;
-volumeSlider.value = 0;
-volumeLabel.textContent = '0';
-
-function toggleMusic() {
-  if (bgMusic.paused) {
-    bgMusic.play()
-      .then(() => {
-        musicToggle.textContent = 'Pause';
       })
-      .catch((err) => {
-        console.error('Music play error:', err);
-      });
-  } else {
-    bgMusic.pause();
-    musicToggle.textContent = 'Play';
-  }
-}
+      .subscribe();
 
-function setVolume(value) {
-  const volume = Number(value) / 100;
-
-  bgMusic.volume = volume;
-  bgMusic.muted = volume === 0;
-  volumeLabel.textContent = value;
-}
-
-function getStatusDot(status) {
-  if (status === 'Open') return '<span class="status-dot green"></span>';
-  if (status === 'Pending') return '<span class="status-dot yellow"></span>';
-  if (status === 'Closed') return '<span class="status-dot red"></span>';
-  return '';
-}
+    loadCases();
   </script>
 </body>
 </html>
