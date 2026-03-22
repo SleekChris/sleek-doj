@@ -2,322 +2,138 @@
 <html>
 <head>
   <title>Sleek DOJ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #0f0f14;
-      color: white;
-      display: flex;
-      height: 100vh;
-    }
-
-    .sidebar {
-      width: 220px;
-      background: #18181f;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .logo {
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 30px;
-      color: white;
-    }
-
-    .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .nav button {
-      background: none;
-      border: none;
-      color: #a1a1aa;
-      padding: 10px;
-      text-align: left;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .nav button:hover,
-    .nav button.active {
-      background: #23232b;
-      color: white;
-    }
-
-    .main {
-      flex: 1;
-      padding: 40px;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    .header {
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: #18181f;
-      padding: 25px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.05);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-
-    .create-btn {
-  background: #23232b;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-bottom: 16px;
-}
-.create-btn:hover {
-  background: #2b2b35;
-}
-.case-item {
-  padding: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.case-input {
-  width: 100%;
-  box-sizing: border-box;
-  background: #111118;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 12px;
-  font-family: 'Inter', sans-serif;
-}
-
-.case-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
+    body { background:#111; color:white; font-family:Arial; }
+    .nav-btn { display:block; margin:5px; cursor:pointer; }
+    .page { display:none; }
+    .active { display:block; }
   </style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="logo">Sleek's DOJ Database</div>
+<!-- NAV -->
+<button class="nav-btn" onclick="showPage('dashboard', this)">Dashboard</button>
+<button class="nav-btn" onclick="showPage('cases', this)">Cases</button>
 
-    <div class="nav">
-      <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
-      <button onclick="showPage('cases', this)">Cases</button>
-      <button onclick="showPage('mycases', this)">My Cases</button>
-      <button onclick="showPage('search', this)">Search</button>
-      <button onclick="showPage('admin', this)">Admin</button>
-    </div>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-
-    <div id="dashboard" class="page active">
-      <div class="header">Dashboard</div>
-      <div class="card">Welcome to your DOJ system.</div>
-    </div>
-
-    <div id="cases" class="page">
-  <div class="header">Cases</div>
-
-  <div style="display: flex; gap: 20px;">
-
-    <!-- LEFT: Case List -->
-    <div style="width: 300px;">
-      <div class="card" style="margin-bottom: 20px;">
-        <h3 style="margin-top: 0;">Create Case</h3>
-
-        <input id="caseDate" placeholder="Date" class="case-input">
-        <input id="caseTitle" placeholder="Title" class="case-input">
-        <input id="caseDefendant" placeholder="Defendant Name" class="case-input">
-        <input id="caseCharges" placeholder="Charges" class="case-input">
-        <textarea id="caseInfo" placeholder="Additional Info" class="case-input case-textarea"></textarea>
-
-        <button class="create-btn" onclick="createCase()">+ Create</button>
-      </div>
-
-      <div class="card" id="caseList">No cases yet.</div>
-    </div>
-
-    <!-- RIGHT: Case Viewer -->
-    <div style="flex: 1;">
-      <div class="card" id="caseViewer">
-        Select a case to view details.
-      </div>
-    </div>
-
-  </div>
+<!-- PAGES -->
+<div id="dashboard" class="page active">
+  <h1>Dashboard</h1>
 </div>
 
-    <div id="mycases" class="page">
-      <div class="header">My Cases</div>
-      <div class="card">Your assigned cases will appear here.</div>
-    </div>
+<div id="cases" class="page">
+  <h1>Cases</h1>
 
-    <div id="search" class="page">
-      <div class="header">Search</div>
-      <div class="card">Search system coming next.</div>
-    </div>
+  <input id="caseDate" placeholder="Date">
+  <input id="caseTitle" placeholder="Title">
+  <input id="caseDefendant" placeholder="Defendant">
+  <input id="caseCharges" placeholder="Charges">
+  <textarea id="caseInfo" placeholder="Notes"></textarea>
 
-    <div id="admin" class="page">
-      <div class="header">Admin Panel</div>
-      <div class="card">Admin tools coming next.</div>
-    </div>
+  <button onclick="createCase()">Create Case</button>
 
-  </div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <div id="caseList"></div>
+  <div id="caseViewer"></div>
+</div>
 
 <script>
-  const SUPABASE_URL = 'https://gzpejcraxocnbfnwxfzs.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6cGVqY3JheG9jbmJmbnd4ZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzE2NzMsImV4cCI6MjA4OTcwNzY3M30.fuVnujsaVWc1IbapfbAZe9gwggrfI3jBpJMnR1VX0GA';
+const SUPABASE_URL = 'https://gzpejcraxocnbfnwxfzs.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6cGVqY3JheG9jbmJmbnd4ZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzE2NzMsImV4cCI6MjA4OTcwNzY3M30.fuVnujsaVWc1IbapfbAZe9gwggrfI3jBpJMnR1VX0GAPASTE_YOUR_ANON_KEY_HERE';
 
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  let cases = [];
-  let selectedCaseId = null;
-  let typingTimeout;
+let cases = [];
+let selectedCaseId = null;
+let typingTimeout;
 
-  function showPage(pageId, button) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+function showPage(pageId, button) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
 
-    document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-  }
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
+}
 
-  function escapeHtml(text) {
-    return String(text ?? '')
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#039;');
-  }
+function escapeHtml(text) {
+  return String(text ?? '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;');
+}
 
-  async function loadCases() {
-    const { data, error } = await supabaseClient
-      .from('cases')
-      .select('*')
-      .order('created_at', { ascending: false });
+async function loadCases() {
+  const { data } = await supabaseClient
+    .from('cases')
+    .select('*')
+    .order('created_at',{ascending:false});
 
-    if (error) {
-      console.error(error);
-      return;
-    }
+  cases = data || [];
+  renderCases();
+}
 
-    cases = data || [];
-    renderCases();
+async function createCase() {
+  const date = caseDate.value;
+  const title = caseTitle.value;
+  const defendant = caseDefendant.value;
+  const charges = caseCharges.value;
+  const info = caseInfo.value;
 
-    if (cases.length > 0) {
-      openCase(cases[0].id);
-    }
-  }
-
-  async function createCase() {
-    const date = document.getElementById('caseDate').value;
-    const title = document.getElementById('caseTitle').value;
-    const defendant = document.getElementById('caseDefendant').value;
-    const charges = document.getElementById('caseCharges').value;
-    const info = document.getElementById('caseInfo').value;
-
-    if (!date || !title || !defendant) {
-      alert("Missing required fields");
-      return;
-    }
-
-    await supabaseClient.from('cases').insert([
-      { date, title, defendant, charges, info, status: 'Open' }
-    ]);
-
-    loadCases();
-  }
-
-  function renderCases() {
-    const list = document.getElementById('caseList');
-    list.innerHTML = '';
-
-    cases.forEach(c => {
-      list.innerHTML += `
-        <div onclick="openCase('${c.id}')" style="cursor:pointer; margin-bottom:10px;">
-          <strong>${escapeHtml(c.title)}</strong><br>
-          <small>${escapeHtml(c.defendant)}</small>
-        </div>
-      `;
-    });
-  }
-
-  function openCase(id) {
-    selectedCaseId = id;
-    const c = cases.find(x => x.id === id);
-
-    if (!c) return;
-
-    document.getElementById('caseViewer').innerHTML = `
-      <input value="${escapeHtml(c.title)}" oninput="updateCaseField('${id}','title',this.value)">
-      <input value="${escapeHtml(c.defendant)}" oninput="updateCaseField('${id}','defendant',this.value)">
-      <textarea oninput="updateCaseField('${id}','info',this.value)">${escapeHtml(c.info || '')}</textarea>
-    `;
-  }
-
-  function updateCaseField(id, field, value) {
-    const c = cases.find(x => x.id === id);
-    if (!c) return;
-
-    c[field] = value;
-
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(async () => {
-      await supabaseClient
-        .from('cases')
-        .update({ [field]: value })
-        .eq('id', id);
-    }, 200);
-  }
-
-  async function deleteCase(id) {
-    await supabaseClient.from('cases').delete().eq('id', id);
-    loadCases();
-  }
+  await supabaseClient.from('cases').insert([
+    { date, title, defendant, charges, info, status:'Open' }
+  ]);
 
   loadCases();
+}
 
-  // ✅ REALTIME FIX
-  supabaseClient
-    .channel('cases-realtime')
-    .on(
-      'postgres_changes',
-      {
-        event: '*',
-        schema: 'public',
-        table: 'cases'
-      },
-      () => {
-        loadCases();
-      }
-    )
-    .subscribe();
+function renderCases() {
+  caseList.innerHTML = '';
+
+  cases.forEach(c=>{
+    caseList.innerHTML += `
+      <div onclick="openCase('${c.id}')">
+        ${escapeHtml(c.title)}
+      </div>
+    `;
+  });
+}
+
+function openCase(id){
+  selectedCaseId = id;
+  const c = cases.find(x=>x.id===id);
+
+  caseViewer.innerHTML = `
+    <input value="${c.title}" oninput="updateField('${id}','title',this.value)">
+    <textarea oninput="updateField('${id}','info',this.value)">${c.info||''}</textarea>
+  `;
+}
+
+function updateField(id,field,value){
+  clearTimeout(typingTimeout);
+
+  typingTimeout = setTimeout(()=>{
+    supabaseClient
+      .from('cases')
+      .update({[field]:value})
+      .eq('id',id);
+  },200);
+}
+
+loadCases();
+
+// REALTIME
+supabaseClient
+  .channel('cases')
+  .on('postgres_changes',{
+    event:'*',
+    schema:'public',
+    table:'cases'
+  },()=>{
+    loadCases();
+  })
+  .subscribe();
 </script>
 
 </body>
