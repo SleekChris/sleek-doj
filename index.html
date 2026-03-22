@@ -2,46 +2,108 @@
 <html>
 <head>
   <title>Sleek DOJ</title>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    body { background:#111; color:white; font-family:Arial; }
-    .nav-btn { display:block; margin:5px; cursor:pointer; }
-    .page { display:none; }
-    .active { display:block; }
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0b0b0f;
+      color: white;
+    }
+
+    .sidebar {
+      width: 200px;
+      height: 100vh;
+      background: #111;
+      position: fixed;
+      padding: 20px;
+    }
+
+    .nav-btn {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      background: #1a1a22;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      background: #2a2a35;
+    }
+
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    input, textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      background: #111;
+      border: 1px solid #333;
+      color: white;
+    }
+
+    button {
+      padding: 10px;
+      background: #2a2a35;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .case-item {
+      background: #1a1a22;
+      padding: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<button class="nav-btn" onclick="showPage('dashboard', this)">Dashboard</button>
-<button class="nav-btn" onclick="showPage('cases', this)">Cases</button>
-
-<!-- PAGES -->
-<div id="dashboard" class="page active">
-  <h1>Dashboard</h1>
+<div class="sidebar">
+  <button class="nav-btn active" onclick="showPage('dashboard', this)">Dashboard</button>
+  <button class="nav-btn" onclick="showPage('cases', this)">Cases</button>
 </div>
 
-<div id="cases" class="page">
-  <h1>Cases</h1>
+<div class="content">
 
-  <input id="caseDate" placeholder="Date">
-  <input id="caseTitle" placeholder="Title">
-  <input id="caseDefendant" placeholder="Defendant">
-  <input id="caseCharges" placeholder="Charges">
-  <textarea id="caseInfo" placeholder="Notes"></textarea>
+  <div id="dashboard" class="page active">
+    <h1>Dashboard</h1>
+  </div>
 
-  <button onclick="createCase()">Create Case</button>
+  <div id="cases" class="page">
+    <h1>Cases</h1>
 
-  <div id="caseList"></div>
-  <div id="caseViewer"></div>
+    <input id="caseDate" placeholder="Date">
+    <input id="caseTitle" placeholder="Title">
+    <input id="caseDefendant" placeholder="Defendant">
+    <input id="caseCharges" placeholder="Charges">
+    <textarea id="caseInfo" placeholder="Notes"></textarea>
+
+    <button onclick="createCase()">Create Case</button>
+
+    <h3>Case List</h3>
+    <div id="caseList"></div>
+
+    <h3>Edit Case</h3>
+    <div id="caseViewer"></div>
+  </div>
+
 </div>
 
 <script>
 const SUPABASE_URL = 'https://gzpejcraxocnbfnwxfzs.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6cGVqY3JheG9jbmJmbnd4ZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzE2NzMsImV4cCI6MjA4OTcwNzY3M30.fuVnujsaVWc1IbapfbAZe9gwggrfI3jBpJMnR1VX0GAPASTE_YOUR_ANON_KEY_HERE';
+const SUPABASE_ANON_KEY = 'PASTE_YOUR_ANON_KEY_HERE';
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -57,18 +119,11 @@ function showPage(pageId, button) {
   button.classList.add('active');
 }
 
-function escapeHtml(text) {
-  return String(text ?? '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;');
-}
-
 async function loadCases() {
   const { data } = await supabaseClient
     .from('cases')
     .select('*')
-    .order('created_at',{ascending:false});
+    .order('created_at', { ascending: false });
 
   cases = data || [];
   renderCases();
@@ -82,7 +137,7 @@ async function createCase() {
   const info = caseInfo.value;
 
   await supabaseClient.from('cases').insert([
-    { date, title, defendant, charges, info, status:'Open' }
+    { date, title, defendant, charges, info, status: 'Open' }
   ]);
 
   loadCases();
@@ -91,34 +146,36 @@ async function createCase() {
 function renderCases() {
   caseList.innerHTML = '';
 
-  cases.forEach(c=>{
+  cases.forEach(c => {
     caseList.innerHTML += `
-      <div onclick="openCase('${c.id}')">
-        ${escapeHtml(c.title)}
+      <div class="case-item" onclick="openCase('${c.id}')">
+        <strong>${c.title}</strong><br>
+        <small>${c.defendant}</small>
       </div>
     `;
   });
 }
 
-function openCase(id){
+function openCase(id) {
   selectedCaseId = id;
-  const c = cases.find(x=>x.id===id);
+  const c = cases.find(x => x.id === id);
 
   caseViewer.innerHTML = `
     <input value="${c.title}" oninput="updateField('${id}','title',this.value)">
-    <textarea oninput="updateField('${id}','info',this.value)">${c.info||''}</textarea>
+    <input value="${c.defendant}" oninput="updateField('${id}','defendant',this.value)">
+    <textarea oninput="updateField('${id}','info',this.value)">${c.info || ''}</textarea>
   `;
 }
 
-function updateField(id,field,value){
+function updateField(id, field, value) {
   clearTimeout(typingTimeout);
 
-  typingTimeout = setTimeout(()=>{
+  typingTimeout = setTimeout(() => {
     supabaseClient
       .from('cases')
-      .update({[field]:value})
-      .eq('id',id);
-  },200);
+      .update({ [field]: value })
+      .eq('id', id);
+  }, 200);
 }
 
 loadCases();
@@ -126,11 +183,11 @@ loadCases();
 // REALTIME
 supabaseClient
   .channel('cases')
-  .on('postgres_changes',{
-    event:'*',
-    schema:'public',
-    table:'cases'
-  },()=>{
+  .on('postgres_changes', {
+    event: '*',
+    schema: 'public',
+    table: 'cases'
+  }, () => {
     loadCases();
   })
   .subscribe();
