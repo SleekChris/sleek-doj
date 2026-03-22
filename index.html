@@ -550,19 +550,61 @@
     loadCases();
 
     supabaseClient
-      .channel('cases-realtime')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'cases'
-        },
-        () => {
-          loadCases(true);
+  .channel('cases-realtime')
+  .on(
+    'postgres_changes',
+    {
+      event: '*',
+      schema: 'public',
+      table: 'cases'
+    },
+    (payload) => {
+      const eventType = payload.eventType;
+      const newRow = payload.new;
+      const oldRow = payload.old;
+
+      if (eventType === 'INSERT' && newRow) {
+        const exists = cases.find(c => c.id === newRow.id);
+        if (!exists) {
+          cases.unshift(newRow);
+          renderCases();
         }
-      )
-      .subscribe();
+      }
+
+      if (eventType === 'UPDATE' && newRow) {
+        const index = cases.findIndex(c => c.id === newRow.id);
+
+        if (index !== -1) {
+          cases[index] = newRow;
+        } else {
+          cases.unshift(newRow);
+        }
+
+        renderCases();
+
+        const active = document.activeElement;
+        const isTyping =
+          active &&
+          (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+
+        if (selectedCaseId === newRow.id && !isTyping) {
+          openCase(newRow.id, false);
+        }
+      }
+
+      if (eventType === 'DELETE' && oldRow) {
+        cases = cases.filter(c => c.id !== oldRow.id);
+
+        if (selectedCaseId === oldRow.id) {
+          selectedCaseId = null;
+          document.getElementById('caseViewer').innerHTML = 'Select a case to view details.';
+        }
+
+        renderCases();
+      }
+    }
+  )
+  .subscribe();
   </script>
 </body>
 </html>
