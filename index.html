@@ -289,6 +289,53 @@
   font-weight: 700; /* bold */
   letter-spacing: 0.5px;
 }
+
+.music-player {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 999;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 16px;
+  border-radius: 14px;
+
+  background: linear-gradient(145deg, #18181f, #14141b);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.music-btn {
+  background: #23232b;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: 0.2s ease;
+}
+
+.music-btn:hover {
+  background: #2b2b35;
+}
+
+.volume-slider {
+  width: 140px;
+  cursor: pointer;
+}
+
+.volume-label {
+  min-width: 28px;
+  color: #cfcfd6;
+  font-size: 14px;
+  text-align: right;
+}
   </style>
 </head>
 
@@ -357,7 +404,25 @@
       <div class="card">Admin tools coming next.</div>
     </div>
   </div>
+<div class="music-player">
+  <button id="musicToggle" class="music-btn" onclick="toggleMusic()">Play</button>
 
+  <input
+    id="volumeSlider"
+    class="volume-slider"
+    type="range"
+    min="0"
+    max="100"
+    value="0"
+    oninput="setVolume(this.value)"
+  >
+
+  <span id="volumeLabel" class="volume-label">0</span>
+
+  <audio id="bgMusic" loop muted>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+</div>
   <script>
     const SUPABASE_URL = 'https://gzpejcraxocnbfnwxfzs.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6cGVqY3JheG9jbmJmbnd4ZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzE2NzMsImV4cCI6MjA4OTcwNzY3M30.fuVnujsaVWc1IbapfbAZe9gwggrfI3jBpJMnR1VX0GA';
@@ -632,6 +697,40 @@
     }
   )
   .subscribe();
+
+  const bgMusic = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeLabel = document.getElementById('volumeLabel');
+
+// always start muted / volume 0
+bgMusic.volume = 0;
+bgMusic.muted = true;
+volumeSlider.value = 0;
+volumeLabel.textContent = '0';
+
+function toggleMusic() {
+  if (bgMusic.paused) {
+    bgMusic.play()
+      .then(() => {
+        musicToggle.textContent = 'Pause';
+      })
+      .catch((err) => {
+        console.error('Music play error:', err);
+      });
+  } else {
+    bgMusic.pause();
+    musicToggle.textContent = 'Play';
+  }
+}
+
+function setVolume(value) {
+  const volume = Number(value) / 100;
+
+  bgMusic.volume = volume;
+  bgMusic.muted = volume === 0;
+  volumeLabel.textContent = value;
+}
   </script>
 </body>
 </html>
